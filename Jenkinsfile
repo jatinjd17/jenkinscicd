@@ -2,40 +2,35 @@ pipeline {
     agent any
 
     environment {
-        APPLICATION_NAME = 'jenkinscicddd'
-        DEPLOYMENT_GROUP = 'j3dev'
+        REPO_URL = 'https://github.com/jatinjd17/jenkinscicd.git'
+        BRANCH = 'main'
         EC2_USER = 'ubuntu'
         EC2_PUBLIC_IP = '13.201.48.249'
     }
 
     stages {
-      
-
-        stage('Deploy to EC2 using CodeDeploy') {
+        stage('Deploy to EC2') {
             steps {
-                // Copy files to EC2 using SSH
+                // SSH into the EC2 instance and run commands
                 script {
-                    withCredentials([sshUserPrivateKey(credentialsId: '1', keyFileVariable: '/home/ubuntu/.ssh/authorized_keys')]) {
-                        sh """
-                            ssh -i /home/ubuntu/.ssh/authorized_keys ${EC2_USER}@${EC2_PUBLIC_IP} 'mkdir -p /app'
-                            scp -i /home/ubuntu/.ssh/authorized_keys -r * ${EC2_USER}@${EC2_PUBLIC_IP}:/app/
-                        """
-                    }
+                    sshCommand remote: [
+                        host: EC2_PUBLIC_IP,
+                        user: EC2_USER,
+                        credentialsId: '1'
+                    ], command: """
+                        cd /app
+                        git pull origin ${BRANCH}
+                        npm install
+                        npm run dev
+                    """
                 }
             }
         }
+    }
 
-        stage('Restart Application') {
-            steps {
-                // Restart your Next.js application on the EC2 instance
-                script {
-                    withCredentials([sshUserPrivateKey(credentialsId: '1', keyFileVariable: '/home/ubuntu/.ssh/authorized_keys')]) {
-                        sh """
-                            ssh -i /home/ubuntu/.ssh/authorized_keys ${EC2_USER}@${EC2_PUBLIC_IP} 'cd /app && npm install && npm run dev'
-                        """
-                    }
-                }
-            }
+    post {
+        success {
+            echo 'Deployment successful!'
         }
     }
 }
