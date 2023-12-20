@@ -16,7 +16,7 @@ pipeline {
                 script {
                     // Use SSH to execute a script on the EC2 instance
                     sshagent(['1']) {
-                        sh 'ssh -i /home/ubuntu/december2023ubuntu.pem ubuntu@13.201.48.249'
+                        sh 'ssh -T -i /home/ubuntu/december2023ubuntu.pem ubuntu@13.201.48.249'
                         sh 'mkdir app'
                         sh 'cd /app'
                         sh 'touch file.txt'
