@@ -16,8 +16,8 @@ pipeline {
                 // Copy files to EC2 using SSH
                 script {
                     sshCommand remote: [
-                        host: EC2_PUBLIC_IP,
-                        user: EC2_USER,
+                        host: ${EC2_PUBLIC_IP},
+                        user: ${EC2_USER},
                         credentialsId: '1'
                     ], command: """
                         mkdir -p /app
@@ -34,8 +34,8 @@ pipeline {
                 // Restart your Next.js application on the EC2 instance
                 script {
                     sshCommand remote: [
-                        host: EC2_PUBLIC_IP,
-                        user: EC2_USER,
+                        host: ${EC2_PUBLIC_IP},
+                        user: ${EC2_USER},
                         credentialsId: '1'
                     ], command: """
                         cd /app
