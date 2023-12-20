@@ -9,12 +9,12 @@ pipeline {
     }
 
     stages {
-        stage('Package Code') {
-            steps {
-                // Package your Next.js application (create a build, etc.)
-                // npm install
-            }
-        }
+        // stage('Package Code') {
+        //     steps {
+        //         // Package your Next.js application (create a build, etc.)
+        //         // npm install
+        //     }
+        // }
 
         stage('Deploy to EC2 using CodeDeploy') {
             steps {
