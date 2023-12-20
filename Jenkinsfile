@@ -16,7 +16,10 @@ pipeline {
                 script {
                     // Use SSH to execute a script on the EC2 instance
                     sshagent(['1']) {
-                        sh 'ssh -o StrictHostKeyChecking=no ubuntu@13.201.48.249 "bash -s" < /app/deploy-script.sh'
+                        sh 'ssh -o StrictHostKeyChecking=no ubuntu@13.201.48.249'
+                        sh 'mkdir app'
+                        sh 'cd /app'
+                        sh 'touch file.txt'
                     }
                 }
             }
