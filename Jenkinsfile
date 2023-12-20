@@ -5,7 +5,8 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
-                    git 'https://github.com/jatinjd17/jenkinscicd.git'
+                    // Check out the source code from the specified Git branch
+                    git branch: "main", url: 'https://github.com/jatinjd17/jenkinscicd.git'
                 }
             }
         }
