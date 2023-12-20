@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         APPLICATION_NAME = 'jenkinscicdpipelineee'
-        DEPLOYMENT_GROUP = 'devv'
+        DEPLOYMENT_GROUP = 'devvv'
         EC2_USER = 'ubuntu'
         EC2_PUBLIC_IP = '13.201.48.249'
     }
